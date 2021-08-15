@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
 const PropertyController = require('../controllers/PropertyController');
-const {uploadImages, resizeImages} = require('../services/uploader');
+const multer = require('multer');
+const multerConfig = require('../services/uploader');
 
 router
     .get ('/imoveis', PropertyController.getAll)
     .get ('/imoveis/:id', PropertyController.getOne)
-    .post ('/imoveis/novo',
-        uploadImages,
-        resizeImages,
-        PropertyController.add
+    .post ('/imoveis/novo', multer(multerConfig).single('file'), PropertyController.add
     )
 
 module.exports = router;

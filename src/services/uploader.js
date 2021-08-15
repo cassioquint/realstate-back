@@ -1,60 +1,33 @@
 const multer = require('multer');
-const sharp = require('sharp');
 const uuid = require('uuid');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 
-const multerStorage = multer.memoryStorage();
-
-const multerFilter = (req, file, cb) => {
-
-    if(file.mimetype.startsWith('image')) {
-        cb(null, true);
-    } else {
-        cb('Formato não suportado', false);
-    }
-};
-
-const upload = multer({
-    storage: multerStorage,
-    fileFilter: multerFilter
-});
-
-const uploadFiles = upload.array('photo', 10);
-
-exports.uploadImages = (req, res, next) => {
-    uploadFiles(req, res, (err) => {
-
-        if(err instanceof multer.MulterError) {
-            if(err.code === 'LIMIT_UNEXPECTED_FILE') {
-                return console.log('Limite de imagens excedido');
-            }
-        } else if(err) {
-            console.log(err);
+module.exports = {
+    dest: `${__dirname}/../public/media`,
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, `${__dirname}/../public/media`);
+        },
+        filename: (req, file, cb) => {
+            const fileName = `${uuid.v4()}-${file.originalname}`;
+            cb(null, fileName);
+        } 
+    }),
+    limits: {
+        fileSize: 2 * 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+        const allowedMimes= [
+            'image/jpeg',
+            'image/pjpeg',
+            'image/jpg',
+            'image/png'
+        ];
+        if(allowedMimes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error("Invalid file type"));
         }
-        next();
-    });
-};
-
-exports.resizeImages = async (req, res, next) => {
-    console.log(req.files.length)
-
-    if(!req.files) return next();
-
-    req.body.photo = [];
-
-    await Promise.all(
-        req.files.map(async (file) => {
-            const filename = `${uuid.v4()}${file.originalname}`;
-            
-            await sharp(file.buffer)
-                .resize(1000, null)
-                .toFormat('jpeg')
-                .jpeg({quality: 100})
-                .toFile(`./public/media/${filename}`);
-
-            req.body.photo.push(filename);  
-
-            console.log(req.body.photo);
-        })
-    );
-    next();
-};
+    }
+}
