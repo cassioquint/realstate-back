@@ -40,8 +40,21 @@ const PropertySchema = new Schema ({
     state: {
         type: String,
     },
-    photo: [ String ],
-    slug: String
+    photo: [{
+        name: String,
+        size: Number,
+        key: String,
+        url: String,
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        }
+    }],
+    slug: String,
+    active: {
+        type: Boolean,
+        default: true
+    } 
 });
 
 module.exports = mongoose.model('Property', PropertySchema);

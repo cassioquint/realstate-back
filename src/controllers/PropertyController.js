@@ -48,6 +48,23 @@ const PropertyController = {
             json.error = error +'Erro ao cadastrar imóvel';
         }
         res.json(json);
+    },
+    addPhoto: async (req, res) => {
+        let json = {error: '', result: []};
+
+        const { originalName: name, size, key, Location: url = '' } = req.file;
+        const { title } = req.body;
+        const property = await Property.create({
+            title,
+            photo: {
+                name,
+                size,
+                key,
+                url
+            }
+        });
+
+        return res.json(property);
     }
 };
 

@@ -7,7 +7,7 @@ const multerConfig = require('../services/uploader');
 router
     .get ('/imoveis', PropertyController.getAll)
     .get ('/imoveis/:id', PropertyController.getOne)
-    .post ('/imoveis/novo', multer(multerConfig).single('file'), PropertyController.add
+    .post ('/imoveis/novo', multer(multerConfig).single('photo'), PropertyController.addPhoto
     )
 
 module.exports = router;
