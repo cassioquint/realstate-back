@@ -32,9 +32,15 @@ const PropertySchema = new Schema ({
     bathrooms: Number,
     parking_spaces: Number,
     construction_year: Number,
-    differentials: [ String ],
+    differentials: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Differential'
+    }],
     on_plant: Boolean,
-    labels: [ String ], //ex: exclusividade, financiamento direto, oferta
+    labels: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Label'
+    }],
     neighborhood: {
         type: String,
     },
@@ -58,7 +64,11 @@ const PropertySchema = new Schema ({
     active: {
         type: Boolean,
         default: true
-    } 
+    },
+    featured: {
+        type: Boolean,
+        default: false
+    }
 });
 
 PropertySchema.pre('remove', function() {

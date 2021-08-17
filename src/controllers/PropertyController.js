@@ -5,7 +5,13 @@ const PropertyController = {
     get: async (req, res) => {
         let limit = parseInt(req.query.l) || 5;
         let json = {error: '', result: []};
-        let properties = await Property.find().sort({$natural:-1}).limit(limit);
+        let properties = await Property
+            .find()
+            .populate('category')
+            .populate('differentials')
+            .populate('labels')
+            .sort({$natural:-1})
+            .limit(limit);
 
         if (properties) {
             json.result = properties;
@@ -16,9 +22,24 @@ const PropertyController = {
     },
     getOne: async (req, res) => {
         let json = {error: '', result: []};
-        let property = await Property.findOne({ slug: req.params.slug });
+        let property = await Property
+            .findOne({ slug: req.params.slug })
+            .populate('category')
+            .populate('differentials')
+            .populate('labels');
 
         if (property) {
+            json.result = property;
+        } else {
+            json.error = 'Imóvel não encontrado';
+        }
+        res.json(json);
+    },
+    getOneById: async (req, res) => {
+        let json = {error: '', result: []};
+        let property = await Property.findById(req.params.id)
+
+        if(property) {
             json.result = property;
         } else {
             json.error = 'Imóvel não encontrado';
@@ -78,6 +99,19 @@ const PropertyController = {
             photo
         });
         return res.json(property);
+    },
+    edit: async (req, res) => {
+        let json = {error: '', result: []};
+        let filter = { _id: req.params.id };
+        let update = req.body;
+
+        try {
+            let property = await Property.findOneAndUpdate(filter, update);
+            json.result = property._id;
+        } catch (error) {
+            json.error = error +' Imóvel não encontrado';
+        }
+        return res.json(json);
     },
     deleteOne: async (req, res) => {
         let json = {error: '', result: []};
