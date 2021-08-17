@@ -32,7 +32,7 @@ const storageTypes = {
 
 module.exports = {
     dest: `${__dirname}/../public/media`,
-    storage: storageTypes['s3'],
+    storage: storageTypes[process.env.STORAGE_TYPE],
     limits: {
         fileSize: 3 * 1024 * 1024
     },

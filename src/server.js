@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('./services/mongoose');
 require('./models/Property');
+require('./models/Category');
 
 const app = require('./app');
 

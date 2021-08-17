@@ -37,34 +37,55 @@ const PropertyController = {
         res.json(json);
     },
     add: async (req, res) => {
-        let json = {error: '', result: []};
+        const photo = [];
 
-        const property = new Property(req.body);
-
-        try {
-            await property.save();
-            json.result = property;
-        } catch (error) {
-            json.error = error +'Erro ao cadastrar imóvel';
-        }
-        res.json(json);
-    },
-    addPhoto: async (req, res) => {
-        let json = {error: '', result: []};
-
-        const { originalName: name, size, key, Location: url = '' } = req.file;
-        const { title } = req.body;
-        const property = await Property.create({
-            title,
-            photo: {
-                name,
-                size,
-                key,
-                url
-            }
+        req.files.map((p) => {
+            photo.push({
+                name: p.originalname,
+                size: p.size,
+                key: p.key,
+                url: p.Location
+            })
         });
 
+        const { title,description,category,broker,goal,
+            price,price_unit,price_before,price_after,
+            land_area,building_area,rooms,bedrooms,bathrooms,parking_spaces,
+            construction_year,differentials,on_plant,labels,
+            neighborhood,city,state,
+            slug,active } = req.body;
+
+        const property = await Property.create({
+            title,
+            description,
+            category,
+            broker,
+            goal,
+            price, price_unit, price_before, price_after,
+            land_area, building_area,
+            rooms, bedrooms, bathrooms, parking_spaces,
+            construction_year,
+            differentials,
+            on_plant,
+            labels,
+            neighborhood, city, state,
+            slug,
+            active,
+            photo
+        });
         return res.json(property);
+    },
+    deleteOne: async (req, res) => {
+        let json = {error: '', result: []};
+        const property = await Property.findById(req.params.id);
+
+        if(property) {
+            json.result = property;
+            await property.remove();
+        } else {
+            json.error = 'Nenhum imóvel encontrado';
+        }  
+        return res.json(json);
     }
 };
 

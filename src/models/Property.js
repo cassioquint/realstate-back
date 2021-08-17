@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+
 mongoose.Promise = global.Promise;
 
 const PropertySchema = new Schema ({
@@ -55,6 +58,19 @@ const PropertySchema = new Schema ({
         type: Boolean,
         default: true
     } 
+});
+
+PropertySchema.pre('remove', function() {
+    if(process.env.STORAGE_TYPE == 's3') {
+        this.photo.map((p) => {
+            return s3.deleteObject({
+                Bucket: process.env.AWS_BUCKET,
+                Key: p.key
+            }).promise()
+        })
+    } else {
+        return;
+    }
 });
 
 module.exports = mongoose.model('Property', PropertySchema);
