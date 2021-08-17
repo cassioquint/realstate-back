@@ -13,7 +13,8 @@ const PropertySchema = new Schema ({
     },
     description: String,
     category: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
     },
     broker: {
         type: Schema.Types.ObjectId,

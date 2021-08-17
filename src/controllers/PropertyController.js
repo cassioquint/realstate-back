@@ -39,17 +39,21 @@ const PropertyController = {
     add: async (req, res) => {
         const photo = [];
 
-        req.files.map((p) => {
-            photo.push({
-                name: p.originalname,
-                size: p.size,
-                key: p.key,
-                url: p.Location
-            })
-        });
+        if(req.files) {
+            req.files.map((p) => {
+                photo.push({
+                    name: p.originalname,
+                    size: p.size,
+                    key: p.key,
+                    url: p.Location
+                })
+            });
+        }
+        
+        let priceSanitized = req.body.price.split(',').join('.');
 
         const { title,description,category,broker,goal,
-            price,price_unit,price_before,price_after,
+            price_unit,price_before,price_after,
             land_area,building_area,rooms,bedrooms,bathrooms,parking_spaces,
             construction_year,differentials,on_plant,labels,
             neighborhood,city,state,
@@ -61,7 +65,7 @@ const PropertyController = {
             category,
             broker,
             goal,
-            price, price_unit, price_before, price_after,
+            price: priceSanitized, price_unit, price_before, price_after,
             land_area, building_area,
             rooms, bedrooms, bathrooms, parking_spaces,
             construction_year,
