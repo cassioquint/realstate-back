@@ -14,5 +14,6 @@ router
     .get ('/categorias/:slug', CategoryController.getOne)
     .post ('/categorias', CategoryController.add)
     .put( '/categorias/:id', CategoryController.edit)
+    .delete ('/categorias/:id', CategoryController.deleteOne)
 
 module.exports = router;

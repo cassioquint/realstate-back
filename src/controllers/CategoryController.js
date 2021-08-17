@@ -45,7 +45,19 @@ const CategoryController = {
         try {
             let category = await Category.findOneAndUpdate(filter, update);
             json.result = category._id;
-        } catch {
+        } catch (error) {
+            json.error = error +' Categoria não encontrada';
+        }
+        return res.json(json);
+    },
+    deleteOne: async (req, res) => {
+        let json = {error: '', result: []};
+        let filter = { _id: req.params.id };
+
+        try {
+            await Category.findByIdAndDelete(filter);
+            json.result = req.params.id;
+        } catch (error) {
             json.error = error +' Categoria não encontrada';
         }
         return res.json(json);
