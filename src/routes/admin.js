@@ -12,6 +12,7 @@ router
     .delete ('/imoveis/:id', PropertyController.deleteOne)
     .get ('/categorias', CategoryController.getAll)
     .get ('/categorias/:slug', CategoryController.getOne)
-    .post ('/categorias/nova', CategoryController.add)
+    .post ('/categorias', CategoryController.add)
+    .put( '/categorias/:id', CategoryController.edit)
 
 module.exports = router;

@@ -33,7 +33,20 @@ const CategoryController = {
             await category.save();
             json.result = category;
         } catch (error) {
-            json.error = error +'Erro ao cadastrar categoria';
+            json.error = error +' Erro ao cadastrar categoria';
+        }
+        return res.json(json);
+    },
+    edit: async (req, res) => {
+        let json = {error: '', result: []};
+        let filter = { _id: req.params.id };
+        let update = req.body;
+
+        try {
+            let category = await Category.findOneAndUpdate(filter, update);
+            json.result = category._id;
+        } catch {
+            json.error = error +' Categoria não encontrada';
         }
         return res.json(json);
     }
