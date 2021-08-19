@@ -4,6 +4,7 @@ const PropertyController = require('../controllers/PropertyController');
 const CategoryController = require('../controllers/CategoryController');
 const DifferentialController = require('../controllers/DifferentialController');
 const LabelController = require('../controllers/LabelController');
+const UserController = require('../controllers/UserController');
 const multer = require('multer');
 const multerConfig = require('../services/uploader');
 
@@ -26,5 +27,7 @@ router
     .post ('/rotulos', LabelController.add)
     .put ( '/rotulos/:id', LabelController.edit)
     .delete ('/rotulos/:id', LabelController.deleteOne)
+    .post ('/register', UserController.register)
+    .post ('/login', UserController.login)
 
 module.exports = router;
