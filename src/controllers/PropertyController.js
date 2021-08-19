@@ -1,14 +1,14 @@
 const mongoose = require('mongoose'); 
 const Property = mongoose.model('Property');
+const Category = mongoose.model('Category');
 
 const PropertyController = {
     get: async (req, res) => {
-        let limit = parseInt(req.query.l) || 5;
+        let limit = parseInt(req.query.l) || '';
         let json = {error: '', result: []};
         let properties = await Property
             .find()
-            .populate('category')
-            .populate('differentials')
+            .lean()
             .populate('labels')
             .sort({$natural:-1})
             .limit(limit);
@@ -24,6 +24,7 @@ const PropertyController = {
         let json = {error: '', result: []};
         let property = await Property
             .findOne({ slug: req.params.slug })
+            .lean()
             .populate('category')
             .populate('differentials')
             .populate('labels');
@@ -37,7 +38,7 @@ const PropertyController = {
     },
     getOneById: async (req, res) => {
         let json = {error: '', result: []};
-        let property = await Property.findById(req.params.id)
+        let property = await Property.findById(req.params.id).lean()
 
         if(property) {
             json.result = property;
@@ -48,7 +49,38 @@ const PropertyController = {
     },
     getAll: async (req, res) => {
         let json = {error: '', result: []};
-        let properties = await Property.find();
+        let properties = await Property.find().lean();
+
+        if (properties) {
+            json.result = properties;
+        } else {
+            json.error = 'Nenhum imóvel encontrado';
+        }
+        res.json(json);
+    },
+    getFeatured: async (req, res) => {
+        let json = {error: '', result: []};
+        let limit = parseInt(req.query.l) || 4;
+        let properties = await Property
+            .find({featured: true})
+            .lean()
+            .limit(limit);
+
+        if (properties) {
+            json.result = properties;
+        } else {
+            json.error = 'Nenhum imóvel encontrado';
+        }
+        res.json(json);
+    },
+    getByCategory: async (req, res) => {
+        let json = {error: '', result: []};
+        let q = req.params.slug;
+        let properties = await Property.
+            find({category: await Category.find({slug: q})})
+            .lean()
+            .populate('labels')
+            .populate('differentials')
 
         if (properties) {
             json.result = properties;
