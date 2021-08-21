@@ -9,7 +9,7 @@ const PropertyController = {
         let properties = await Property
             .find()
             .lean()
-            .populate('labels')
+            .populate('labels','title')
             .sort({$natural:-1})
             .limit(limit);
 

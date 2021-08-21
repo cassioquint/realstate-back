@@ -5,6 +5,7 @@ const UserController = {
         User.register(new User(req.body), 
         req.body.password, (error) => {
             if(error) {
+                console.log(error)
                 return res.json({'created': false});
             }
             return res.json({'created': true});
