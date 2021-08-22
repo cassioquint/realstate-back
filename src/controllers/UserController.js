@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const UserController = {
     register: (req, res) => {
@@ -17,11 +18,13 @@ const UserController = {
 
         auth(email, password, (error, result) => {
             if(!result) {
-                return res.json({'logged': false});
+                return res.json({auth: false});
             } else {
-                return res.json({'logged': true});
+                const token = jwt.sign({email: email}, process.env.AUTH_SECRET, {expiresIn: 7200});
+                return res.json({ auth: true, user: email, token });
             }
         });
+        
     }
 };
 

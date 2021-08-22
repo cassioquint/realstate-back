@@ -7,6 +7,7 @@ const LabelController = require('../controllers/LabelController');
 const UserController = require('../controllers/UserController');
 const multer = require('multer');
 const multerConfig = require('../services/uploader');
+const authMdw = require('../Middlewares/AuthMdw');
 
 router
     .get ('/imoveis', PropertyController.getAll)
