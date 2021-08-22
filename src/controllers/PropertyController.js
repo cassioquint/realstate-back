@@ -7,7 +7,7 @@ const PropertyController = {
         let limit = parseInt(req.query.l) || '';
         let json = {error: '', result: []};
         let properties = await Property
-            .find()
+            .find({active: true})
             .lean()
             .populate('labels','title')
             .sort({$natural:-1})
@@ -49,7 +49,7 @@ const PropertyController = {
     },
     getAll: async (req, res) => {
         let json = {error: '', result: []};
-        let properties = await Property.find().lean();
+        let properties = await Property.find({active: true}).lean();
 
         if (properties) {
             json.result = properties;
@@ -62,7 +62,7 @@ const PropertyController = {
         let json = {error: '', result: []};
         let limit = parseInt(req.query.l) || 4;
         let properties = await Property
-            .find({featured: true})
+            .find({featured: true, active: true})
             .lean()
             .limit(limit);
 
@@ -77,7 +77,7 @@ const PropertyController = {
         let json = {error: '', result: []};
         let q = req.params.slug;
         let properties = await Property.
-            find({category: await Category.find({slug: q})})
+            find({category: await Category.find({slug: q}), active: true})
             .lean()
             .populate('labels')
             .populate('differentials')
