@@ -49,7 +49,7 @@ const PropertyController = {
     },
     getAll: async (req, res) => {
         let json = {error: '', result: []};
-        let properties = await Property.find({active: true}).lean();
+        let properties = await Property.find().lean();
 
         if (properties) {
             json.result = properties;
