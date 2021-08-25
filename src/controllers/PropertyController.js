@@ -103,7 +103,7 @@ const PropertyController = {
             });
         }
         
-        let priceSanitized = req.body.price.split(',').join('.');
+        let priceSanitized = req.body.price? req.body.price.split(',').join('.') : undefined;
 
         const { title,description,category,broker,goal,
             price_unit,price_before,price_after,
