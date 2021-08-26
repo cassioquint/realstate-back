@@ -2,6 +2,21 @@ const mongoose = require('mongoose');
 const Category = mongoose.model('Category');
 
 const CategoryController = {
+    categories: async (req, res) => {
+        let json = {error: '', result: []};
+        let categories = await Category
+            .find({}, 'slug')
+            .lean();
+
+        if (categories) {
+            categories.map((i) => {
+                json.result.push(i.slug);
+            })
+        } else {
+            json.error = 'Nenhum slug encontrado';
+        }
+        res.json(json);
+    },
     getAll: async (req, res) => {
         let json = {error: '', result: []};
         let categories = await Category.find();

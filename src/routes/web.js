@@ -4,6 +4,8 @@ const PropertyController = require('../controllers/PropertyController');
 const CategoryController = require('../controllers/CategoryController');
 
 router
+    .get ('/api/slugs', PropertyController.slugs)
+    .get ('/api/categories', CategoryController.categories)
     .get ('/api/properties', PropertyController.get)
     .get ('/api/properties/featured', PropertyController.getFeatured)
     .get ('/api/properties/category/:slug', PropertyController.getByCategory)

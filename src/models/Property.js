@@ -6,6 +6,7 @@ const s3 = new aws.S3();
 mongoose.Promise = global.Promise;
 
 const PropertySchema = new Schema ({
+    code: String,
     title: {
         type: String,
         trim: true,

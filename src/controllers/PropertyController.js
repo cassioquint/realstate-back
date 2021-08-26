@@ -3,6 +3,21 @@ const Property = mongoose.model('Property');
 const Category = mongoose.model('Category');
 
 const PropertyController = {
+    slugs: async (req, res) => {
+        let json = {error: '', result: []};
+        let properties = await Property
+            .find({}, 'slug')
+            .lean();
+
+        if (properties) {
+            properties.map((i) => {
+                json.result.push(i.slug);
+            })
+        } else {
+            json.error = 'Nenhum slug encontrado';
+        }
+        res.json(json);
+    },
     get: async (req, res) => {
         let limit = parseInt(req.query.l) || '';
         let json = {error: '', result: []};
@@ -81,6 +96,7 @@ const PropertyController = {
             .lean()
             .populate('labels')
             .populate('differentials')
+            .sort({$natural:-1});
 
         if (properties) {
             json.result = properties;
