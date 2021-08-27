@@ -12,6 +12,7 @@ const authMdw = require('../Middlewares/AuthMdw');
 router
     .get ('/imoveis', PropertyController.getAll)
     .get ('/imoveis/:id', PropertyController.getOneById)
+    .get ('/imoveis/categoria/:id', PropertyController.getByCategoryId)
     .post ('/imoveis', multer(multerConfig).array('photo', 10), PropertyController.add)
     .put ('/imoveis/:id', PropertyController.edit)
     .delete ('/imoveis/:id', PropertyController.deleteOne)

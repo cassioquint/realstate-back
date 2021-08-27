@@ -90,6 +90,7 @@ const PropertyController = {
     },
     getByCategory: async (req, res) => {
         let json = {error: '', result: []};
+
         let q = req.params.slug;
         let properties = await Property.
             find({category: await Category.find({slug: q}), active: true})
@@ -98,6 +99,22 @@ const PropertyController = {
             .populate('differentials')
             .sort({$natural:-1});
 
+        if (properties) {
+            json.result = properties;
+        } else {
+            json.error = 'Nenhum imóvel encontrado';
+        }
+        res.json(json);
+    },
+    getByCategoryId: async (req, res) => {
+        let json = {error: '', result: []};
+
+        let q = req.params.id;
+        let properties = await Property.
+            find({category: q, active: true})
+            .lean()
+            .select('_id');
+        
         if (properties) {
             json.result = properties;
         } else {

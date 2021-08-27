@@ -10,7 +10,8 @@ const CategorySchema = new Schema ({
         required: true
     },
     slug: String,
-    description: String
+    description: String,
+    code: String
 });
 
 module.exports = mongoose.model('Category', CategorySchema);
