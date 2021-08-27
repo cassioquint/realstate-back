@@ -146,6 +146,7 @@ const PropertyController = {
             slug,active } = req.body;
 
         const property = await Property.create({
+            code,
             title,
             description,
             category,
