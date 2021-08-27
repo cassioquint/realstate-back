@@ -138,7 +138,7 @@ const PropertyController = {
         
         let priceSanitized = req.body.price? req.body.price.split(',').join('.') : undefined;
 
-        const { title,description,category,broker,goal,
+        const { code,title,description,category,broker,goal,
             price_unit,price_before,price_after,
             land_area,building_area,rooms,bedrooms,bathrooms,parking_spaces,
             construction_year,differentials,on_plant,labels,
