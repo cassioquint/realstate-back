@@ -14,7 +14,7 @@ router
     .get ('/imoveis/:id', PropertyController.getOneById)
     .get ('/imoveis/categoria/:id', PropertyController.getByCategoryId)
     .post ('/imoveis', multer(multerConfig).array('photo', 10), PropertyController.add)
-    .put ('/imoveis/:id', PropertyController.edit)
+    .put ('/imoveis/:id', multer(multerConfig).array('photo', 10), PropertyController.edit)
     .delete ('/imoveis/:id', PropertyController.deleteOne)
     .get ('/categorias', CategoryController.getAll)
     .get ('/categorias/:slug', CategoryController.getOne)

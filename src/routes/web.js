@@ -11,5 +11,8 @@ router
     .get ('/api/properties/category/:slug', PropertyController.getByCategory)
     .get ('/api/property/:slug', PropertyController.getOne)
     .get ('/api/category/:slug', CategoryController.getOne)
+    .post ('/testes', (req, res) => {
+        res.json(req.body);
+    })
 
 module.exports = router;
