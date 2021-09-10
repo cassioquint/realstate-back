@@ -51,6 +51,22 @@ const PropertyController = {
         }
         res.json(json);
     },
+    getOneByCode: async (req, res) => {
+        let json = {error: '', result: []};
+        let property = await Property
+            .findOne({ code: req.params.code })
+            .lean()
+            .populate('category')
+            .populate('differentials')
+            .populate('labels');
+
+        if (property) {
+            json.result = property;
+        } else {
+            json.error = 'Imóvel não encontrado';
+        }
+        res.json(json);
+    },
     getOneById: async (req, res) => {
         let json = {error: '', result: []};
         let property = await Property.findById(req.params.id).lean()

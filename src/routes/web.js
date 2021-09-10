@@ -9,7 +9,7 @@ router
     .get ('/api/properties', PropertyController.get)
     .get ('/api/properties/featured', PropertyController.getFeatured)
     .get ('/api/properties/category/:slug', PropertyController.getByCategory)
-    .get ('/api/property/:slug', PropertyController.getOne)
+    .get ('/api/property/:code', PropertyController.getOneByCode)
     .get ('/api/category/:slug', CategoryController.getOne)
     .post ('/testes', (req, res) => {
         res.json(req.body);
