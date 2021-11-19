@@ -14,6 +14,7 @@ router
     .get ('/imoveis/:id', PropertyController.getOneById)
     .get ('/imoveis/categoria/:id', PropertyController.getByCategoryId)
     .post ('/imoveis', multer(multerConfig).array('photo', 10), PropertyController.add)
+    .put('/imoveis/desvendertodos', PropertyController.unSoldAll)
     .put ('/imoveis/:id', multer(multerConfig).array('photo', 10), PropertyController.edit)
     .delete ('/imoveis/:id', PropertyController.deleteOne)
     .get ('/categorias', CategoryController.getAll)
@@ -31,6 +32,5 @@ router
     .delete ('/rotulos/:id', LabelController.deleteOne)
     .post ('/register', UserController.register)
     .post ('/login', UserController.login)
-    .put('/imoveis/desvendertodos', PropertyController.unSoldAll)
 
 module.exports = router;
