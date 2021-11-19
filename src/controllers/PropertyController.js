@@ -211,8 +211,8 @@ const PropertyController = {
         let json = {error: '', result: []};
 
         try {
-            let property = await Property.updateMany({"deleted": false});
-            json.result = property._id;
+            let property = await Property.updateMany({deleted: false});
+            json.result = property;
         } catch (error) {
             json.error = error +' Imóvel não encontrado';
         }
