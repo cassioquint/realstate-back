@@ -73,6 +73,10 @@ const PropertySchema = new Schema ({
     deleted: {
         type: Boolean,
         default: false
+    },
+    sold: {
+        type: Boolean,
+        default: false
     }
 });
 
