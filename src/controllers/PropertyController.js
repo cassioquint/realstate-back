@@ -206,7 +206,18 @@ const PropertyController = {
             json.error = 'Nenhum imóvel encontrado';
         }  
         return res.json(json);
-    }
+    },
+    unSoldAll: async (req, res) => {
+        let json = {error: '', result: []};
+
+        try {
+            let property = await Property.updateMany({"deleted": false});
+            json.result = property._id;
+        } catch (error) {
+            json.error = error +' Imóvel não encontrado';
+        }
+        return res.json(json);
+    },
 };
 
 module.exports = PropertyController;

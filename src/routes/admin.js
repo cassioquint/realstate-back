@@ -19,7 +19,7 @@ router
     .get ('/categorias', CategoryController.getAll)
     .get ('/categorias/:slug', CategoryController.getOne)
     .post ('/categorias', CategoryController.add)
-    .put( '/categorias/:id', CategoryController.edit)
+    .put('/categorias/:id', CategoryController.edit)
     .delete ('/categorias/:id', CategoryController.deleteOne)
     .get ('/diferenciais', DifferentialController.getAll)
     .post ('/diferenciais', DifferentialController.add)
@@ -31,5 +31,6 @@ router
     .delete ('/rotulos/:id', LabelController.deleteOne)
     .post ('/register', UserController.register)
     .post ('/login', UserController.login)
+    .put('/imoveis/desvendertodos', PropertyController.unSoldAll)
 
 module.exports = router;
