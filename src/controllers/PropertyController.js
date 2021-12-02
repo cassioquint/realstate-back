@@ -22,7 +22,7 @@ const PropertyController = {
         let limit = parseInt(req.query.l) || '';
         let json = {error: '', result: []};
         let properties = await Property
-            .find({active: true})
+            .find({deleted: false, active: true})
             .lean()
             .populate('labels','title')
             .sort({$natural:-1})
