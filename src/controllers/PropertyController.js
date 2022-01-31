@@ -109,7 +109,7 @@ const PropertyController = {
 
         let q = req.params.slug;
         let properties = await Property.
-            find({category: await Category.find({slug: q}), active: true})
+            find({'deleted': false, category: await Category.find({slug: q}), active: true})
             .lean()
             .populate('labels')
             .populate('differentials')
